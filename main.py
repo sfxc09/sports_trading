@@ -33,10 +33,10 @@ from betfairlightweight import filters
 
 print('setting up betfair api')
 
-trading = betfairlightweight.APIClient(username='bill.bernardot@gmail.com',
-                                      password='Betting@Pass2>',
-                                      app_key='2ylsB5KQOdsPpE04',
-                                      certs=r'C:\Program Files\OpenSSL-Win64\bin\cnf')
+trading = betfairlightweight.APIClient(username='',
+                                      password='',
+                                      app_key='',
+                                      certs=r'')
 trading.login()
 
 event_types = trading.betting.list_event_types()
@@ -294,109 +294,6 @@ for game in matching_games:
     time.sleep(3) # because each thread starts by requesting access to smarkets, results in many requests all at once which smarkets ends up blocking
     
     
-'''s = [thread.join() for thread in threads] # wait for all threads to end before continuing main thread
-print('all threads completed')'''
+s = [thread.join() for thread in threads] # wait for all threads to end before continuing main thread
+print('all threads completed')
 
-
-
-
-        
-'''
-##### try using beautiful soup for betfair/betdaq?
-
-def betdaq_worker(game):     
-    res = requests.get('https://www.betdaq.com/exchange/soccer/english-soccer/premier-league/premier-league-matches/18-00-sheff-utd-v-everton-(live)/7391365')
-    try:
-        res.raise_for_status()
-    except Exception as e:
-        print(e)
-        time.sleep(2)
-    finally: # could cause error as raise_for_status() called no matter what
-        res.raise_for_status()
-    print(bs4.BeautifulSoup(res.text, "html.parser"))
-    driver = webdriver.Chrome('chromedriver.exe',options=chrome_options)
-    driver.set_window_size(1920, 1080)
-    driver.implicitly_wait(10)
-    failed = True
-    while failed:
-        try:
-            driver.get('https://www.betdaq.com/exchange/soccer/english-soccer/premier-league/premier-league-matches/18-00-sheff-utd-v-everton-(live)/7391365')
-            failed = False
-        except Exception as e:
-            print('error'+e)
-            time.sleep(2)
-    time.sleep(5)
-    search_input = driver.find_element_by_xpath('//*[@id="client-searchPane"]/div/input')
-    search_input.send_keys(game)
-    driver.find_element_by_xpath('//*[@id="event_7388170"]/td/a').click()
-    time.sleep(3)
-    driver.save_screenshot('betdaq.png')
-    
-
-while True:
-    
-    # create program to ring a bell or create a notification indicating that a team has scored a goal with relevant information
-    # save the initial list from start of day of urls to file to check for results at end of day in case network sucks
-            
-    driver = webdriver.Chrome('chromedriver.exe',options = chrome_options)
-    driver.set_window_size(1920, 1080)
-            
-    # wait for page to load
-    ########################## BETDAQ #########################
-    # get full time result
-    driver.get('https://www.betdaq.com/exchange/soccer/italian-soccer/serie-a/serie-a-matches/18-30-brescia-v-spal-(live)/7394641')
-    time.sleep(5)
-    driver.save_screenshot('test.png')
-            
-    image = PIL.Image.open('test.png')
-
-    # MATCH ODDS
-    # teams
-    image.crop((550,410,800,510)).save('test1.png',quality=100)
-    match_odds_teams = pytesseract.image_to_string(cv2.imread('test1.png')).split()
-    print(match_odds_teams)
-
-    # home back/lay price/volume
-    img = image.resize((220,60),PIL.Image.LANCZOS, (990,410,1100,440)) # upscaled for more accurate opencv reading
-    img.save('test1.png',quality=100)
-    home_p_v = pytesseract.image_to_string(cv2.imread('test1.png')).split()
-    print(home_p_v)
-
-    # draw back/lay price/volume
-    img = image.resize((220,60),PIL.Image.LANCZOS, (990,445,1100,480)) # upscaled for more accurate opencv reading
-    img.save('test1.png',quality=100)
-    draw_p_v = pytesseract.image_to_string(cv2.imread('test1.png')).split()
-    print(draw_p_v)
-
-    # away back/lay price/volume
-    img = image.resize((220,60),PIL.Image.LANCZOS, (990,480,1100,510)) # upscaled for more accurate opencv reading
-    img.save('test1.png',quality=100)
-    away_p_v = pytesseract.image_to_string(cv2.imread('test1.png')).split()
-    print(away_p_v)
-            
-            
-            
-    ############################ SMARKETS #########################
-    # do you need to reload the page to see live odd updates 
-    driver.get('https://smarkets.com/event/41753532/sport/football/italy-serie-b/2020/07/13/19-00/ascoli-vs-empoli')
-    time.sleep(5)
-    smarkets_match_outcome = []
-    # get full time result
-    for i in range(5):
-        time.sleep(20)
-        for i in range(1,4):
-            team = driver.find_element_by_xpath(f"//ul[@class='contract-groups']/li[1]/div/div[2]/div/ul/li[{i}]/div/div/div/span").text # team
-            # back
-            back_odds = driver.find_element_by_xpath(f"//ul[@class='contract-groups']/li[1]/div/div[2]/div/ul/li[{i}]/div/span[2]/span/span[1]").text # odds
-            back_volume = driver.find_element_by_xpath(f"//ul[@class='contract-groups']/li[1]/div/div[2]/div/ul/li[{i}]/div/span[2]/span/span[2]").text # volume
-            # lay 
-            lay_odds = driver.find_element_by_xpath(f"//ul[@class='contract-groups']/li[1]/div/div[2]/div/ul/li[{i}]/div/span[3]/span/span[1]").text # odds
-            lay_volume = driver.find_element_by_xpath(f"//ul[@class='contract-groups']/li[1]/div/div[2]/div/ul/li[{i}]/div/span[3]/span/span[2]").text # volume
-            smarkets_match_outcome.append([team, back_odds, back_volume, lay_odds, lay_volume])
-                
-            print(smarkets_match_outcome)
-                
-            
-        driver.execute_script("window.scrollTo(0, 700)")
-        driver.quit()'''
-    
